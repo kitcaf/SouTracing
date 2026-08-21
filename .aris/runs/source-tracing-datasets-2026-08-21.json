@@ -1,0 +1,24 @@
+{
+  "created": "2026-08-21T15:44+08:00",
+  "updated": "2026-08-21T17:37+08:00",
+  "run_id": "source-tracing-datasets-2026-08-21",
+  "gates": {
+    "idea-discovery-evidence": "BLOCKED: run_state.py/idea_discovery_gate.py helpers unavailable in resolution chain; empirical pilots not yet run"
+  },
+  "stages": {
+    "research-lit": "done --artifact idea-stage/IDEA_REPORT.md#literature-landscape",
+    "idea-creator": "done --artifact idea-stage/IDEA_REPORT.md#ranked-ideas",
+    "novelty-check": "done --artifact idea-stage/IDEA_REPORT.md#novelty-verification",
+    "research-review": "done --artifact idea-stage/IDEA_REPORT.md#external-critical-review",
+    "research-refine-pipeline": "done --artifact refine-logs/FINAL_PROPOSAL.md"
+  },
+  "executor_history": [
+    "claude-fable-5",
+    "OpenAI Codex deployment (exact model id unavailable)"
+  ],
+  "notes": [
+    "The OpenAI review substantially revised the original direction after finding NFSL, DSLF, CRSLL and TSR-RSD.",
+    "No positive reviewer receipt was recorded because the canonical run-state helper is unavailable.",
+    "The proposal is literature-validated but not empirically validated."
+  ]
+}

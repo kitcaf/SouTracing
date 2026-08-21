@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>传播源定位 Idea Discovery Report</title>
+
+<meta name="generator" content="ARIS render-html (academic, v1)">
+<meta name="aris:source-path" content="idea-stage\IDEA_REPORT.md">
+<meta name="aris:source-sha256" content="db207578a7347e0f69106f8882152273c3ab7d1c23ac098c4b108270f145755c">
+<meta name="aris:generated-at" content="2026-08-21 09:40 UTC">
+
+<!-- MathJax 3 -->
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+<!-- highlight.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-light.min.css">
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());</script>
+
+
+<style>
+:root {
+  --bg: #fdfcf7;
+  --bg-soft: #f4f1ea;
+  --bg-code: #f8f5ec;
+  --ink: #1a1a1a;
+  --ink-soft: #4a4a4a;
+  --ink-muted: #6b6b6b;
+  --primary: #1a4a8c;
+  --primary-soft: #2d6cb8;
+  --accent: #b8390e;
+  --warn: #b45309;
+  --warn-bg: #fef3c7;
+  --info-bg: #dbeafe;
+  --good-bg: #d1fae5;
+  --good: #065f46;
+  --bad-bg: #fee2e2;
+  --bad: #991b1b;
+  --border: #d6d0c0;
+  --border-soft: #e8e3d5;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Source Serif Pro", "Source Serif 4", "Crimson Pro", "Georgia", "Songti SC", "STSong", serif;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+.layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 48px;
+  padding: 40px 32px;
+}
+
+nav.toc {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  font-size: 13px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border-right: 1px solid var(--border-soft);
+  padding-right: 16px;
+}
+nav.toc h3 {
+  margin: 0 0 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+nav.toc ol { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
+nav.toc ol li { margin: 5px 0; counter-increment: toc; }
+nav.toc ol li::before { content: counter(toc) ". "; color: var(--ink-muted); margin-right: 4px; }
+nav.toc a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+}
+nav.toc a:hover { color: var(--primary); border-bottom-color: var(--primary); }
+nav.toc ul { list-style: none; padding-left: 14px; margin: 3px 0; font-size: 12px; }
+nav.toc ul li::before { content: "→ "; color: var(--border); }
+
+main { min-width: 0; }
+
+header.hero {
+  border-bottom: 3px double var(--primary);
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+}
+header.hero .eyebrow {
+  color: var(--accent);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+body.aris-blog header.hero .eyebrow {
+  font-family: inherit;
+  color: var(--ink-muted);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+header.hero h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+header.hero .subtitle {
+  font-size: 16px;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+  font-style: italic;
+}
+header.hero .byline {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 0 0 20px;
+}
+header.hero .byline strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+header.hero .meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--ink-muted);
+  border-top: 1px solid var(--border-soft);
+  padding-top: 14px;
+}
+header.hero .meta span strong { color: var(--ink-soft); }
+header.hero .meta code {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", "Consolas", monospace;
+  font-size: 11px;
+  background: var(--bg-soft);
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--border-soft);
+}
+
+h2 {
+  font-size: 24px;
+  margin: 44px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink);
+  font-weight: 700;
+}
+h2 .num { color: var(--primary); font-weight: 600; margin-right: 8px; }
+h3 { font-size: 19px; margin: 28px 0 10px; color: var(--primary); font-weight: 600; }
+h4 { font-size: 16px; margin: 20px 0 8px; color: var(--ink); font-weight: 600; }
+
+p { margin: 10px 0; }
+ul, ol { padding-left: 22px; margin: 10px 0; }
+ul li, ol li { margin: 4px 0; }
+ul li::marker { color: var(--primary); }
+
+strong { color: var(--accent); font-weight: 600; }
+em { color: var(--ink-soft); }
+
+a { color: var(--primary); }
+a:hover { color: var(--accent); }
+
+code:not(.hljs) {
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", "Consolas", monospace;
+  font-size: 0.86em;
+  background: var(--bg-code);
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--border-soft);
+  color: var(--accent);
+}
+
+pre {
+  background: #fafaf6;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  padding: 0;
+  overflow-x: auto;
+  border-radius: 4px;
+  margin: 14px 0;
+}
+pre code, pre code.hljs {
+  background: transparent !important;
+  display: block;
+  padding: 14px 18px !important;
+  font-size: 13px;
+  line-height: 1.55;
+  font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+  color: var(--ink);
+}
+pre.diagram {
+  background: #f9f6ed;
+  border-left: 4px solid var(--accent);
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.callout {
+  margin: 16px 0;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border-left: 4px solid;
+  font-size: 15px;
+}
+.callout-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.callout-info { background: var(--info-bg); border-left-color: var(--primary); }
+.callout-info .callout-title { color: var(--primary); }
+.callout-warn { background: var(--warn-bg); border-left-color: var(--warn); }
+.callout-warn .callout-title { color: var(--warn); }
+.callout-good { background: var(--good-bg); border-left-color: var(--good); }
+.callout-good .callout-title { color: var(--good); }
+.callout-bad { background: var(--bad-bg); border-left-color: var(--bad); }
+.callout-bad .callout-title { color: var(--bad); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+thead { background: var(--primary); color: white; }
+th, td {
+  text-align: left;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border-soft);
+  vertical-align: top;
+}
+th { font-weight: 600; font-size: 13px; letter-spacing: 0.02em; }
+tr:last-child td { border-bottom: none; }
+tbody tr:nth-child(even) { background: var(--bg-soft); }
+
+details.qa, details {
+  background: white;
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  margin: 10px 0;
+  padding: 0;
+}
+details summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--primary);
+  list-style: none;
+  user-select: none;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::before {
+  content: "▸ ";
+  margin-right: 4px;
+  display: inline-block;
+  transition: transform 0.15s;
+}
+details[open] summary::before { transform: rotate(90deg); }
+details[open] summary { border-bottom: 1px solid var(--border-soft); }
+details > :not(summary) { padding: 10px 14px; }
+details p:first-of-type { margin-top: 8px; }
+
+mjx-container[display="true"] { margin: 12px 0 !important; }
+
+footer.aris-footer {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+footer.aris-footer a { color: var(--ink-muted); border-bottom: 1px dotted var(--border); }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; gap: 20px; padding: 20px 16px; }
+  nav.toc {
+    position: static;
+    max-height: none;
+    border-right: none;
+    border-bottom: 1px solid var(--border-soft);
+    padding-right: 0;
+    padding-bottom: 14px;
+  }
+  header.hero h1 { font-size: 24px; }
+  h2 { font-size: 20px; }
+}
+@media print {
+  nav.toc { display: none; }
+  .layout { grid-template-columns: 1fr; padding: 0; }
+  body { background: white; }
+  header.hero { border-bottom-color: var(--ink); }
+  #cite-pop, dialog.lightbox { display: none !important; }
+}
+
+/* --- P0 polish: TOC scrollspy active state ---------------------------- */
+nav.toc a.active {
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom-color: var(--accent);
+}
+
+/* --- P0 polish: Long-code auto-collapse ------------------------------- */
+details.code-card {
+  margin: 14px 0;
+  background: #fafaf6;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: 4px;
+}
+details.code-card > summary {
+  cursor: pointer;
+  padding: 8px 14px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-family: "JetBrains Mono", "SF Mono", monospace;
+  list-style: none;
+  user-select: none;
+}
+details.code-card > summary::-webkit-details-marker { display: none; }
+details.code-card > summary::before { content: none; }
+details.code-card > pre {
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-left: none;
+  border-radius: 0;
+}
+@media print {
+  details.code-card { border: 1px solid #ccc; background: white; }
+  details.code-card > summary { display: none !important; }
+  details.code-card > pre { border: 1px solid #ddd; border-radius: 4px; background: white; }
+}
+
+/* --- P0 polish: Paper popover ([[ref]] popups) ------------------------ */
+[data-ref] {
+  color: var(--primary);
+  border-bottom: 1px dotted var(--primary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+[data-ref]:hover { background: rgba(26, 74, 140, 0.08); }
+#cite-pop {
+  position: fixed;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  font-size: 13px;
+  line-height: 1.5;
+  z-index: 1000;
+}
+#cite-pop[hidden] { display: none; }
+#cite-pop .cp-title {
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  padding-right: 24px;
+}
+#cite-pop .cp-meta {
+  color: var(--ink-muted);
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+#cite-pop .cp-key {
+  color: var(--accent);
+  font-style: italic;
+  margin-bottom: 8px;
+}
+#cite-pop .cp-link {
+  display: inline-block;
+  color: var(--primary);
+  font-weight: 500;
+}
+#cite-pop .cp-close {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--ink-muted);
+}
+
+/* --- P0 polish: Figure lightbox (native <dialog>) --------------------- */
+dialog.lightbox {
+  border: none;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.92);
+  width: 96vw;
+  height: 96vh;
+  max-width: 96vw;
+  max-height: 96vh;
+}
+dialog.lightbox::backdrop { background: rgba(0, 0, 0, 0.92); }
+dialog.lightbox .lb-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 16px;
+  position: relative;
+}
+dialog.lightbox img {
+  max-width: 90vw;
+  max-height: 84vh;
+  object-fit: contain;
+  cursor: zoom-out;
+}
+dialog.lightbox figcaption {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  text-align: center;
+  max-width: 700px;
+}
+dialog.lightbox .lb-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* --- P0 polish: blog/talk mode active-H2 highlight (opt-in) ----------- */
+body.aris-blog h2 { scroll-margin-top: 24px; }
+body.aris-blog h2.aris-active-h2 {
+  background: linear-gradient(to right, rgba(26, 74, 140, 0.06), transparent);
+  border-radius: 4px;
+  padding-left: 12px;
+  margin-left: -12px;
+}
+</style>
+</head>
+<body class="">
+<div class="layout">
+
+<nav class="toc">
+  <h3>Contents</h3>
+  <ol>
+<li><a href="#executive-summary">Executive Summary</a>
+</li>
+<li><a href="#1-问题定义与需要澄清的源">1. 问题定义与需要澄清的“源”</a>
+<ul>
+<li><a href="#11-建议采用的任务">1.1 建议采用的任务</a></li>
+<li><a href="#12-必须收窄的语义">1.2 必须收窄的语义</a></li>
+</ul>
+</li>
+<li><a href="#literature-landscape">Literature Landscape</a>
+<ul>
+<li><a href="#21-经典方法与当前基准范式">2.1 经典方法与当前基准范式</a></li>
+<li><a href="#22-与富属性真实传播最接近的工作">2.2 与“富属性真实传播”最接近的工作</a></li>
+</ul>
+</li>
+<li><a href="#novelty-verification">Novelty Verification</a>
+</li>
+<li><a href="#3-数据集转换审计">3. 数据集转换审计</a>
+<ul>
+<li><a href="#31-候选数据集">3.1 候选数据集</a></li>
+<li><a href="#32-为什么直接转换-phemeupfd不够">3.2 为什么“直接转换 PHEME/UPFD”不够</a></li>
+</ul>
+</li>
+<li><a href="#4-推荐的-opentrace-benchmark">4. 推荐的 OpenTrace Benchmark</a>
+<ul>
+<li><a href="#41-数据实例构造">4.1 数据实例构造</a></li>
+<li><a href="#42-四种任务协议">4.2 四种任务协议</a></li>
+<li><a href="#43-必须提供的划分">4.3 必须提供的划分</a></li>
+<li><a href="#44-泄漏探针">4.4 泄漏探针</a></li>
+</ul>
+</li>
+<li><a href="#ranked-ideas">Ranked Ideas</a>
+<ul>
+<li><a href="#推荐组合">推荐组合</a></li>
+</ul>
+</li>
+<li><a href="#6-推荐方法causalhazard-sl">6. 推荐方法：CausalHazard-SL</a>
+<ul>
+<li><a href="#61-核心思想">6.1 核心思想</a></li>
+<li><a href="#62-损失函数">6.2 损失函数</a></li>
+<li><a href="#63-与近邻工作的区分">6.3 与近邻工作的区分</a></li>
+</ul>
+</li>
+<li><a href="#7-最小可行性实验mve">7. 最小可行性实验（MVE）</a>
+<ul>
+<li><a href="#pilot-0数据可构造性cpu24-小时">Pilot 0：数据可构造性（CPU，2–4 小时）</a></li>
+<li><a href="#pilot-1任务是否非平凡cpu单-gpu2-小时">Pilot 1：任务是否非平凡（CPU/单 GPU，&lt;2 小时）</a></li>
+<li><a href="#pilot-2因果特征是否有信号单-gpu2-小时">Pilot 2：因果特征是否有信号（单 GPU，&lt;2 小时）</a></li>
+</ul>
+</li>
+<li><a href="#8-完整实验设计">8. 完整实验设计</a>
+<ul>
+<li><a href="#81-baselines">8.1 Baselines</a></li>
+<li><a href="#82-metrics">8.2 Metrics</a></li>
+<li><a href="#83-主实验">8.3 主实验</a></li>
+<li><a href="#84-关键消融">8.4 关键消融</a></li>
+</ul>
+</li>
+<li><a href="#external-critical-review">External Critical Review</a>
+<ul>
+<li><a href="#91-最强审稿意见">9.1 最强审稿意见</a></li>
+<li><a href="#92-审稿评分预估">9.2 审稿评分预估</a></li>
+<li><a href="#93-reviewer-verdict">9.3 Reviewer Verdict</a></li>
+</ul>
+</li>
+<li><a href="#10-eliminated-ideas">10. Eliminated Ideas</a>
+<ul>
+<li><a href="#普通富特征-gnn">普通富特征 GNN</a></li>
+<li><a href="#直接转换-phemeupfd">直接转换 PHEME/UPFD</a></li>
+<li><a href="#重复传播者先验">重复传播者先验</a></li>
+<li><a href="#llm-级联模拟">LLM 级联模拟</a></li>
+</ul>
+</li>
+<li><a href="#11-推荐投稿定位">11. 推荐投稿定位</a>
+<ul>
+<li><a href="#最优论文叙事">最优论文叙事</a></li>
+<li><a href="#适合的-venue">适合的 venue</a></li>
+</ul>
+</li>
+<li><a href="#12-下一步">12. 下一步</a>
+</li>
+<li><a href="#evidence-gate-status">Evidence Gate Status</a>
+</li>
+</ol>
+</nav>
+
+<main>
+<header class="hero">
+  <div class="eyebrow">OpenTrace / 2026-08-21</div>
+  <h1>传播源定位 Idea Discovery Report</h1>
+  
+  
+  <div class="meta">
+    <span><strong>Source:</strong> <code>idea-stage\IDEA_REPORT.md</code></span>
+    <span><strong>SHA256:</strong> <code>db207578a734</code></span>
+    <span><strong>Rendered:</strong> 2026-08-21 09:40 UTC</span>
+    
+  </div>
+</header>
+
+<h1 id="idea-discovery-report">Idea Discovery Report</h1>
+<p><strong>方向</strong>：网络传播图上的传播源定位（source localization / rumor source detection），重点研究如何将带用户、内容和时间信息的真实传播数据转化为严格、非平凡、可复现的源定位任务 <strong>日期</strong>：2026-08-21 <strong>Run ID</strong>：<code>source-tracing-datasets-2026-08-21</code> <strong>推荐主题</strong>：<strong>OpenTrace：面向真实传播快照的无泄漏基准与特征条件传播反演</strong></p>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>你的观察抓住了一个真实问题：经典传播源定位长期依赖“真实拓扑 + IC/LT/SIR 模拟扩散”或只包含感染状态的旧级联，用户画像、内容和真实传播动力学被大量丢弃。</p>
+<p>但截至 2026 年，不能再把论文贡献表述为“首次把富属性传播数据用于源定位”。最接近的工作已经包括：</p>
+<ul><li><strong>NFSL（CIKM 2024）</strong>：面向真实传播场景的 user-centric source localization；</li><li><strong>DSLF（IJCAI 2024）</strong>：利用用户画像和传播特征进行跨平台联合源定位；</li><li><strong>CRSLL（IJCAI 2025）</strong>：结合用户画像、评论信息与 LLM 的跨平台源定位；</li><li><strong>TSR-RSD（2026）</strong>：在 GossipCop、PolitiFact、PHEME 等富内容数据上使用 GNN 与语义推理；</li><li><strong>PDSL（arXiv 2026）</strong>：进一步强调真实传播动力学和跨网络泛化。</li></ul>
+<p>因此，<strong>“数据更丰富 + 拼一个 feature-aware GNN”本身创新性不足</strong>。真正尚未被解决、且更容易形成高质量论文的缺口是：</p>
+<ol><li>富属性数据转换后经常泄漏源点：传播树根、转发方向、精确时间戳、source-only 文本或记录类型会让任务退化为“找 root”；</li><li>用户特征常混入事件发生后的数据，产生 future leakage；</li><li>随机级联划分允许同一 source user 同时出现在训练和测试中，模型可能只是在记忆“惯常源点”；</li><li>PHEME/UPFD 等通常提供传播树而非事件发生前的完整社会/交互图，和标准 source-localization 输入并不一致；</li><li>目前缺少一个完全开放、时间切片严格、同时提供真实级联、环境图、内容和历史用户特征的统一基准；</li><li>现有方法多直接做判别式分类，较少显式学习“消息—用户—边”条件下的真实传播核，再解决逆问题。</li></ol>
+<p><strong>最终建议</strong>：以 2024–2025 年公开的 Bluesky 全量/纵向数据为主，构建 <code>OpenTrace-BSky</code>；定义严格的 causal cutoff、source-disjoint split、泄漏探针和 sim2real 协议；提出 <strong>CausalHazard-SL</strong>，学习真实的 feature-conditioned propagation hazard，并用 forward-consistency 约束反演源点。</p>
+<hr />
+<h2 id="1-问题定义与需要澄清的源">1. 问题定义与需要澄清的“源”</h2>
+<h3 id="11-建议采用的任务">1.1 建议采用的任务</h3>
+<p>对一条真实传播事件 \(c\)，给定：</p>
+<ul><li>事件发生前构建的环境图 \(G_{&lt;t_0}=(V,E)\)；</li><li>观察时刻 \(T\) 的传播状态 \(y_T\in\{0,1\}^{|V|}\)；</li><li>事件发生前可获得的用户特征 \(x_v^{&lt;t_0}\)；</li><li>全局消息内容 \(m_c\)，它对所有候选节点相同；</li><li>可选的粗粒度观察时间或缺失掩码；</li></ul>
+<p>预测平台内发起该传播事件的用户：</p>
+<p>\[ \hat{s}=\arg\max_{v\in C_c}p_\theta(s=v\mid G_{&lt;t_0},y_T,x^{&lt;t_0},m_c). \]</p>
+<p>候选集 \(C_c\) 默认是被观察为感染/参与传播的用户。开放世界设置允许真实源不在已观察集合中。</p>
+<h3 id="12-必须收窄的语义">1.2 必须收窄的语义</h3>
+<p>数据能可靠标注的通常是：</p>
+<blockquote><p><strong>platform-level diffusion initiator</strong>：平台内这条原始记录的作者。</p></blockquote>
+<p>它不一定是：</p>
+<blockquote><p><strong>ultimate information origin</strong>：该观点、新闻或谣言在现实世界中的最初来源。</p></blockquote>
+<p>论文必须使用前一种表述，避免把“原帖作者定位”夸大为“事实源头追踪”。</p>
+<hr />
+<h2 id="literature-landscape">Literature Landscape</h2>
+<h3 id="21-经典方法与当前基准范式">2.1 经典方法与当前基准范式</h3>
+<table><thead><tr><th>年份</th><th>工作</th><th>主要贡献</th><th>数据/设置的局限</th></tr></thead><tbody><tr><td>2019</td><td>GCNSI</td><td>使用 GCN 从感染快照识别源点</td><td>主要依赖模拟扩散</td></tr><tr><td>2022</td><td>SL-VAE</td><td>将源定位建模为图扩散逆问题</td><td>真实拓扑上模拟级联</td></tr><tr><td>2022</td><td>IVGD</td><td>可逆图扩散，学习前向与逆向映射</td><td>仍以预设扩散模型为主</td></tr><tr><td>2023</td><td>DDMSL</td><td>离散去噪扩散，恢复传播路径和源点</td><td>常用真实图拓扑加模拟状态</td></tr><tr><td>2024</td><td>GIN-SD</td><td>不完整节点观测下的源检测</td><td>“用户状态”较弱，传播仍主要模拟</td></tr><tr><td>2024</td><td>GraphSL</td><td>统一实现多种源定位方法和数据接口</td><td>主要覆盖 Karate、Dolphins、Jazz、Cora-ML、Power Grid 等经典图及 IC/LT 模拟</td></tr><tr><td>2025</td><td>SIDSL</td><td>结构先验与迁移，缓解训练传播不足</td><td>未形成开放富属性真实基准</td></tr><tr><td>2025</td><td>GDFSL</td><td>学习更一般的传播动力学</td><td>未系统使用消息内容和因果历史用户特征</td></tr><tr><td>2026</td><td>PDSL</td><td>利用传播动力学与跨网络知识</td><td>表明“真实动力学 + 泛化”已成为竞争方向</td></tr></tbody></table>
+<p>代表性来源：</p>
+<ul><li><a href="https://arxiv.org/abs/2405.03724">GraphSL: A Graph Source Localization Library</a></li><li><a href="https://openreview.net/forum?id=5Fr8Nwi5KF">DDMSL, NeurIPS 2023</a></li><li><a href="https://arxiv.org/abs/2403.00014">GIN-SD</a></li><li><a href="https://arxiv.org/abs/2502.17928">SIDSL</a></li><li><a href="https://www.ijcai.org/proceedings/2025/325">GDFSL, IJCAI 2025</a></li><li><a href="https://arxiv.org/abs/2605.03550">PDSL</a></li></ul>
+<h3 id="22-与富属性真实传播最接近的工作">2.2 与“富属性真实传播”最接近的工作</h3>
+<table><thead><tr><th>工作</th><th>已经覆盖的内容</th><th>对本项目的含义</th></tr></thead><tbody><tr><td><a href="https://dl.acm.org/doi/10.1145/3627673.3679704">NFSL, CIKM 2024</a></td><td>真实传播场景、用户中心建模、动态异质传播行为</td><td>“首次面向真实传播/用户行为”不能再宣称</td></tr><tr><td><a href="https://www.ijcai.org/proceedings/2024/268">DSLF, IJCAI 2024</a></td><td>Twitter–Weibo 跨平台联合定位，使用用户画像和传播特征</td><td>“首次加入用户画像”不成立</td></tr><tr><td><a href="https://www.ijcai.org/proceedings/2025/348">CRSLL, IJCAI 2025</a></td><td>用户画像、评论、LLM、跨平台语义对齐</td><td>普通 text/profile fusion 明显拥挤</td></tr><tr><td><a href="https://www.mdpi.com/2079-9292/15/5/914">TSR-RSD, 2026</a></td><td>GNN、结构过滤、LLM 语义推理；GossipCop/PolitiFact/PHEME</td><td>使用富内容假新闻数据做 source detection 已出现</td></tr></tbody></table>
+<p><strong>结论</strong>：原始 idea 有问题意识，但需要把贡献从“使用更多特征”升级为：</p>
+<blockquote><p><strong>严格定义什么特征在观察时真正可用，消除转换泄漏，并学习真实的条件传播动力学。</strong></p></blockquote>
+<hr />
+<h2 id="novelty-verification">Novelty Verification</h2>
+<table><thead><tr><th>候选贡献</th><th>查新结论</th><th>可保留的差异化</th></tr></thead><tbody><tr><td>首次用真实传播级联做源定位</td><td>不成立</td><td>改为首次系统实施 causal cutoff 与 leakage audit</td></tr><tr><td>首次加入用户画像</td><td>不成立，DSLF 已覆盖</td><td>强调事件前特征、source-disjoint 和身份泄漏探针</td></tr><tr><td>首次加入评论/文本/LLM</td><td>不成立，CRSLL 与 TSR-RSD 已覆盖</td><td>全局内容共享、历史写作/兴趣匹配和 forward likelihood</td></tr><tr><td>首次做跨平台源定位</td><td>不成立，DSLF/CRSLL 已覆盖</td><td>改为无配对、跨时间或 source-disjoint 泛化</td></tr><tr><td>首次学习传播动力学</td><td>不成立，GDFSL/PDSL 已接近</td><td>学习 message-user-edge 条件 hazard，并用于 inverse consistency</td></tr><tr><td>公开统一真实快照 benchmark</td><td>尚未发现等价工作</td><td>这是最有希望的核心贡献，但必须验证 NFSL 数据发布与任务细节</td></tr></tbody></table>
+<p>综合结论：<strong>OpenTrace 的新颖性来自任务和评价协议，而不是“数据里有更多字段”</strong>。CausalHazard-SL 的新颖性来自条件前向传播核和反演一致性，而不是普通 feature fusion。</p>
+<hr />
+<h2 id="3-数据集转换审计">3. 数据集转换审计</h2>
+<h3 id="31-候选数据集">3.1 候选数据集</h3>
+<table><thead><tr><th>数据源</th><th style="text-align:right">内容/用户特征</th><th style="text-align:right">传播关系</th><th style="text-align:right">环境图</th><th style="text-align:right">源标签</th><th>转换结论</th></tr></thead><tbody><tr><td>PHEME</td><td style="text-align:right">帖子文本、用户、时间</td><td style="text-align:right">回复会话树</td><td style="text-align:right">通常无完整社会图</td><td style="text-align:right">根推文</td><td>可做辅助集；若暴露树结构则源点平凡</td></tr><tr><td>FakeNewsNet</td><td style="text-align:right">新闻、推文、用户画像、社交上下文</td><td style="text-align:right">回复/转发等</td><td style="text-align:right">设计上包含 social network，但复现依赖 hydration</td><td style="text-align:right">原始新闻/推文可追踪</td><td>可用但数据缺失和 API 漂移严重</td></tr><tr><td>UPFD</td><td style="text-align:right">用户偏好/画像特征、传播图</td><td style="text-align:right">PyG 中的传播树/图</td><td style="text-align:right">不是标准全体社会图</td><td style="text-align:right">根节点可恢复</td><td>适合快速 pilot，不适合单独支撑新 benchmark</td></tr><tr><td>MuMiN</td><td style="text-align:right">多语言、多模态、用户/帖子/声明异构图</td><td style="text-align:right">社交互动</td><td style="text-align:right">有较丰富异构关系</td><td style="text-align:right">需重新定义事件级源</td><td>适合扩展，但标签映射复杂</td></tr><tr><td>Bluesky Social Dataset</td><td style="text-align:right">帖子、用户、关注、回复、引用、转发、时间</td><td style="text-align:right">可恢复真实 repost/quote 事件</td><td style="text-align:right">有时间化的 follow/interaction 数据</td><td style="text-align:right">原帖作者</td><td><strong>主推荐</strong></td></tr><tr><td>BlueTempNet</td><td style="text-align:right">纵向互动与网络动态</td><td style="text-align:right">时间化社交互动</td><td style="text-align:right">支持 pre-event graph</td><td style="text-align:right">可结合原帖/转发记录</td><td><strong>推荐用于时间切片和分布漂移</strong></td></tr><tr><td>FediData / Mastodon</td><td style="text-align:right">公开帖子、回复、boost、账号信息</td><td style="text-align:right">联邦平台互动</td><td style="text-align:right">可构建实例/用户交互图</td><td style="text-align:right">boost 原帖可作为平台源</td><td>作为第二平台，需先核验数据完整性</td></tr></tbody></table>
+<p>数据来源：</p>
+<ul><li><a href="https://figshare.com/articles/dataset/PHEME_dataset_for_Rumour_Detection_and_Veracity_Classification/6392078">PHEME dataset</a></li><li><a href="https://arxiv.org/abs/1809.01286">FakeNewsNet</a></li><li><a href="https://github.com/safe-graph/GNN-FakeNews">UPFD repository</a></li><li><a href="https://github.com/MuMiN-dataset/mumin">MuMiN</a></li><li><a href="https://ojs.aaai.org/index.php/ICWSM/article/view/35800">Bluesky Social Dataset, ICWSM 2025</a></li><li><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0327407">A longitudinal dataset of social interactions on Bluesky</a></li><li><a href="https://arxiv.org/abs/2507.07478">BlueTempNet</a></li><li><a href="https://github.com/FDUDataNET/FediData">FediData</a></li></ul>
+<h3 id="32-为什么直接转换-phemeupfd不够">3.2 为什么“直接转换 PHEME/UPFD”不够</h3>
+<ol><li><strong>Root leakage</strong>：传播树的根节点就是源点；</li><li><strong>方向泄漏</strong>：转发/回复边的方向可直接定位零入度节点；</li><li><strong>时间泄漏</strong>：最早时间戳直接给出答案；</li><li><strong>记录类型泄漏</strong>：original post 与 repost 的字段不同；</li><li><strong>source-only content leakage</strong>：只有源节点持有完整原文，其他节点为空；</li><li><strong>图定义不匹配</strong>：传播树不是“全体社会关系图”，无法与经典任务公平比较；</li><li><strong>未来信息泄漏</strong>：当前用户画像、粉丝数、历史帖子可能包含事件发生后的状态；</li><li><strong>身份记忆</strong>：随机划分使同一用户在训练/测试中反复作为源点。</li></ol>
+<p>这组问题本身可以形成论文的重要贡献：<strong>Real-Cascade Source Localization Leakage Taxonomy</strong>。</p>
+<hr />
+<h2 id="4-推荐的-opentrace-benchmark">4. 推荐的 OpenTrace Benchmark</h2>
+<h3 id="41-数据实例构造">4.1 数据实例构造</h3>
+<p>以 Bluesky 原帖及其 repost/quote 为一个事件：</p>
+<ol><li>原帖作者为平台内源点 \(s\)，原帖时间为 \(t_0\)；</li><li>在观察截止时间 \(T\) 前转发/引用该记录的用户构成感染集合 \(I_T\)；</li><li><p>环境图只能用 \(t_0\) 之前的数据构造：</p>
+<ul><li><code>follow graph</code>：事件前已存在的关注边；</li><li><code>interaction graph</code>：过去 \(H\) 天的 reply/quote/repost 互动；</li><li><code>multiplex graph</code>：同时保留两类边；</li></ul></li><li>为控制规模，取感染节点周围的 \(k\)-hop 子图，并加入度匹配的未感染节点；</li><li>删除当前事件的转发父边、精确动作时间、record type、URI 等可直接暴露答案的字段；</li><li>用户文本历史和画像严格截断到 \(t_0\)；</li><li>全局消息文本 \(m_c\) 对所有候选源共享，不将其只挂在源节点上。</li></ol>
+<h3 id="42-四种任务协议">4.2 四种任务协议</h3>
+<table><thead><tr><th>协议</th><th>输入</th><th>回答的问题</th></tr></thead><tbody><tr><td><code>Topo</code></td><td>环境图 + 最终感染状态</td><td>与经典 source localization 公平兼容</td></tr><tr><td><code>Causal-Profile</code></td><td><code>Topo</code> + 事件前画像/历史行为</td><td>用户信息是否真正增加可识别性</td></tr><tr><td><code>Causal-Content</code></td><td>上述输入 + 全局消息及用户历史语义</td><td>消息—用户匹配是否帮助定位</td></tr><tr><td><code>Partial/Open</code></td><td>节点缺失、源可能未被观察</td><td>更接近部署场景</td></tr></tbody></table>
+<h3 id="43-必须提供的划分">4.3 必须提供的划分</h3>
+<ul><li><strong>Chronological split</strong>：训练早期事件，测试未来事件；</li><li><strong>Source-disjoint split</strong>：测试源用户在训练中从未作为源；</li><li><strong>Content-family-disjoint split</strong>：同 URL、同原帖或近重复内容不能跨集合；</li><li><strong>Platform/domain split</strong>：若加入 Mastodon，则训练 Bluesky、测试 Mastodon；</li><li><strong>Transductive split</strong>：保留重复用户，作为真实运营场景，但必须单独报告。</li></ul>
+<h3 id="44-泄漏探针">4.4 泄漏探针</h3>
+<p>每个数据版本发布前运行：</p>
+<ul><li>timestamp-only；</li><li>node-degree-only；</li><li>record-type-only；</li><li>user-ID embedding-only；</li><li>source propensity count；</li><li>text availability mask-only；</li><li>post-event profile-only；</li><li>shuffled-label canary。</li></ul>
+<p>若任一非语义泄漏探针获得异常高的 Hit@1，必须停止方法比较并修正数据。</p>
+<hr />
+<h2 id="ranked-ideas">Ranked Ideas</h2>
+<table><thead><tr><th style="text-align:right">排名</th><th>Idea</th><th style="text-align:right">新颖性</th><th style="text-align:right">可行性</th><th>主要风险</th><th>决策</th></tr></thead><tbody><tr><td style="text-align:right">1</td><td><strong>OpenTrace：无泄漏、因果时间切片的真实源定位基准 + sim2real 审计</strong></td><td style="text-align:right">高</td><td style="text-align:right">高</td><td>数据清洗与快照成本</td><td><strong>推荐，主贡献</strong></td></tr><tr><td style="text-align:right">2</td><td><strong>CausalHazard-SL：学习消息/用户/边条件传播核，再进行源反演</strong></td><td style="text-align:right">中高</td><td style="text-align:right">中高</td><td>前向 hazard 学不好</td><td><strong>推荐，方法贡献</strong></td></tr><tr><td style="text-align:right">3</td><td><strong>Partial/Open-World SL：源缺失与不完整观察</strong></td><td style="text-align:right">中高</td><td style="text-align:right">中</td><td>标签与评价复杂</td><td>推荐作为扩展</td></tr><tr><td style="text-align:right">4</td><td><strong>跨时间/跨平台 domain generalization</strong></td><td style="text-align:right">中</td><td style="text-align:right">中</td><td>第二平台数据质量</td><td>作为泛化实验</td></tr><tr><td style="text-align:right">5</td><td><strong>信息层边际可识别性诊断</strong></td><td style="text-align:right">中</td><td style="text-align:right">高</td><td>单独成文偏弱</td><td>并入主论文</td></tr><tr><td style="text-align:right">6</td><td><strong>重复传播者先验</strong></td><td style="text-align:right">中低</td><td style="text-align:right">高</td><td>容易退化为身份泄漏</td><td>仅作 transductive baseline</td></tr><tr><td style="text-align:right">7</td><td><strong>内容变异时钟</strong></td><td style="text-align:right">中</td><td style="text-align:right">中低</td><td>repost 文本变异信号可能很弱</td><td>小 pilot 后决定</td></tr><tr><td style="text-align:right">8</td><td><strong>LLM persona cascade simulator</strong></td><td style="text-align:right">中</td><td style="text-align:right">低</td><td>模拟真实性不可证</td><td>暂缓</td></tr><tr><td style="text-align:right">9</td><td><strong>普通 text+profile GNN</strong></td><td style="text-align:right">低</td><td style="text-align:right">高</td><td>NFSL/DSLF/CRSLL/TSR-RSD 已拥挤</td><td><strong>淘汰为主 idea</strong></td></tr><tr><td style="text-align:right">10</td><td><strong>直接把 PHEME/UPFD 根节点当源做 benchmark</strong></td><td style="text-align:right">低</td><td style="text-align:right">高</td><td>root/time/structure leakage</td><td><strong>淘汰</strong></td></tr></tbody></table>
+<h3 id="推荐组合">推荐组合</h3>
+<p>不是三篇松散工作，而是一个明确论文故事：</p>
+<blockquote><p><strong>OpenTrace exposes how simulated and artifact-prone source localization differs from causal real-world localization; CausalHazard-SL closes part of this gap by learning the real, context-dependent forward process before inversion.</strong></p></blockquote>
+<hr />
+<h2 id="6-推荐方法causalhazard-sl">6. 推荐方法：CausalHazard-SL</h2>
+<h3 id="61-核心思想">6.1 核心思想</h3>
+<p>对消息 \(m\)、传播者 \(u\)、接收者 \(v\) 和事件前边特征 \(e_{uv}\)，学习传播 hazard：</p>
+<p>\[ \lambda_{uv}^{(c)} =\operatorname{softplus} \left(f_\theta(z_u^{&lt;t_0},z_v^{&lt;t_0},e_{uv}^{&lt;t_0},m_c)\right). \]</p>
+<p>其中 \(z_u^{&lt;t_0}\) 只来自事件发生前的画像、行为和文本历史。</p>
+<p>对每个候选源 \(s\)，前向模块预测观察时刻的感染概率：</p>
+<p>\[ \hat{y}<em>T^{(s)}=\mathcal{F}</em>{\theta} (G_{&lt;t_0},s,m_c,z^{&lt;t_0},T). \]</p>
+<p>然后根据观测状态计算源后验：</p>
+<p>\[ p(s\mid y_T,G,x,m) \propto p(s)\, \exp\{-D(y_T,\hat{y}_T^{(s)})\}. \]</p>
+<p>为避免逐候选完整模拟，使用两阶段推断：</p>
+<ol><li>逆向 GNN/Graph Transformer 生成 top-\(K\) 候选；</li><li>用 learned forward hazard 对 top-\(K\) 做 consistency reranking。</li></ol>
+<h3 id="62-损失函数">6.2 损失函数</h3>
+<p>\[ \mathcal{L} =\mathcal{L}<em>{src} +\alpha\mathcal{L}</em>{forward} +\beta\mathcal{L}<em>{cycle} +\gamma\mathcal{L}</em>{calib}. \]</p>
+<ul><li><code>source loss</code>：真实源的排序/分类损失；</li><li><code>forward loss</code>：真实传播边或时间分桶的 likelihood；</li><li><code>cycle loss</code>：预测源经过前向扩散后应重构观测快照；</li><li><code>calibration loss</code>：避免在开放世界设置中过度自信。</li></ul>
+<h3 id="63-与近邻工作的区分">6.3 与近邻工作的区分</h3>
+<ul><li>对比 NFSL：重点不是用户行为编码，而是<strong>因果特征政策 + 真实 forward kernel + inverse consistency</strong>；</li><li>对比 DSLF/CRSLL：不是跨平台 feature fusion/LLM semantic alignment，而是严格快照任务和传播动力学反演；</li><li>对比 GDFSL/PDSL：条件传播核显式依赖消息内容、用户历史和边上下文，并在开放真实数据上验证；</li><li>对比 TSR-RSD：不是直接让 LLM 判断源，而是用可审计的前向传播 likelihood 约束源后验。</li></ul>
+<hr />
+<h2 id="7-最小可行性实验mve">7. 最小可行性实验（MVE）</h2>
+<h3 id="pilot-0数据可构造性cpu24-小时">Pilot 0：数据可构造性（CPU，2–4 小时）</h3>
+<p>抽取 1,000 个 Bluesky repost cascades，检查：</p>
+<ul><li>原帖作者覆盖率；</li><li>事件前 follow/interaction graph 的节点覆盖率；</li><li>级联规模、深度、候选数分布；</li><li>删除泄漏字段后是否仍能构成非空任务。</li></ul>
+<p><strong>继续门槛</strong>：至少 80% 的合格级联拥有可用的 pre-event 环境图；中位候选数不低于 10。</p>
+<h3 id="pilot-1任务是否非平凡cpu单-gpu2-小时">Pilot 1：任务是否非平凡（CPU/单 GPU，&lt;2 小时）</h3>
+<p>运行：</p>
+<ul><li>random；</li><li>degree；</li><li>closeness / Jordan center；</li><li>earliest-time（只作为 oracle，不属于合法输入）；</li><li>topology-only GCN；</li><li>user-ID-only。</li></ul>
+<p><strong>继续门槛</strong>：</p>
+<ul><li>degree/ID-only 不能异常接近监督模型；</li><li>topology-only 应显著高于 chance，但远未饱和；</li><li>source-disjoint 后性能应合理下降，而不是归零。</li></ul>
+<h3 id="pilot-2因果特征是否有信号单-gpu2-小时">Pilot 2：因果特征是否有信号（单 GPU，&lt;2 小时）</h3>
+<p>比较：</p>
+<ul><li>topology-only；</li><li><ul><li>pre-event profile；</li></ul></li><li><ul><li>pre-event history；</li></ul></li><li><ul><li>global content；</li></ul></li><li><ul><li>post-event features（泄漏上界，不作为正式模型）。</li></ul></li></ul>
+<p><strong>继续门槛</strong>：source-disjoint MRR 至少提升 5% 相对值，且提升不能主要来自用户 ID 或 post-event 特征。</p>
+<p>若 Pilot 2 失败，保留 benchmark/sim2real 论文，放弃 feature-aware 方法主张。</p>
+<hr />
+<h2 id="8-完整实验设计">8. 完整实验设计</h2>
+<h3 id="81-baselines">8.1 Baselines</h3>
+<ul><li>Rumor/Jordan center、distance centrality；</li><li>GCNSI；</li><li>SL-VAE；</li><li>IVGD；</li><li>DDMSL；</li><li>GIN-SD；</li><li>SIDSL / GDFSL / PDSL（代码可获得时）；</li><li>GraphSL 中的统一实现；</li><li>feature-only MLP；</li><li>topology GNN；</li><li>source propensity；</li><li>NFSL/DSLF 风格适配模型。</li></ul>
+<h3 id="82-metrics">8.2 Metrics</h3>
+<ul><li>Hit@1、Hit@5；</li><li>MRR；</li><li>graph-distance error；</li><li>NLL / Brier score；</li><li>ECE；</li><li>inference latency；</li><li>open-world AUROC / AUPRC。</li></ul>
+<h3 id="83-主实验">8.3 主实验</h3>
+<ol><li><strong>Benchmark validity</strong>：泄漏探针、任务难度和跨划分稳定性；</li><li><strong>Sim2real gap</strong>：在同一环境图上用 IC/LT/SIR 模拟训练，再测试真实级联；</li><li><strong>Feature value</strong>：profile/history/content 的边际贡献；</li><li><strong>Method comparison</strong>：CausalHazard-SL 对 topology-only 和直接 fusion；</li><li><strong>Generalization</strong>：chronological、source-disjoint、跨平台；</li><li><strong>Robustness</strong>：10%–70% 节点缺失、边缺失、源不可见；</li><li><strong>Calibration</strong>：未知源拒识和置信度。</li></ol>
+<h3 id="84-关键消融">8.4 关键消融</h3>
+<ul><li>learned hazard → 固定 IC；</li><li>删除 global content；</li><li>删除历史文本；</li><li>删除 profile；</li><li>删除 forward loss；</li><li>删除 cycle consistency；</li><li>不做 top-\(K\) reranking；</li><li>follow graph vs interaction graph vs multiplex；</li><li>transductive vs source-disjoint。</li></ul>
+<hr />
+<h2 id="external-critical-review">External Critical Review</h2>
+<h3 id="91-最强审稿意见">9.1 最强审稿意见</h3>
+<ol><li><strong>“你定位的只是原帖作者，不是谣言真正源头。”</strong>  回应：严格改名为 platform-level diffusion initiator localization；开放世界扩展讨论外部注入。</li><li><strong>“Bluesky 的 repost 记录本来就指向原帖，你人为删掉这个字段后制造了一个任务。”</strong>  回应：这是为研究受限观测下的源定位；必须证明与经典输入定义一致，并提供不同信息可见度协议，不能宣称平台本身无法查原帖。</li><li><strong>“富特征提升只是记住高频 source users。”</strong>  回应：source-disjoint、time split、ID-only probe、history truncation 是硬门槛。</li><li><strong>“完整 follower snapshot 并不可靠，删帖/取消关注会造成历史图误差。”</strong>  回应：使用 timestamped follow records 和 pre-event interaction graph 双轨构图；报告覆盖率与图不确定性。</li><li><strong>“只做一个平台，结论不一般。”</strong>  回应：第一版至少加入一个跨时间测试；若 FediData boost 链完整，再加入 Mastodon 外部测试。</li><li><strong>“benchmark + method 两个贡献都做不深。”</strong>  回应：主贡献顺序必须固定为 benchmark/protocol 第一，方法第二；若数据 pilot 不稳，不继续复杂方法。</li></ol>
+<h3 id="92-审稿评分预估">9.2 审稿评分预估</h3>
+<ul><li>原始 “PHEME/UPFD + profile/text GNN”：<strong>4/10，Reject</strong>；</li><li>OpenTrace benchmark，但无强实证：<strong>6/10，Borderline</strong>；</li><li>OpenTrace + 泄漏审计 + 明确 sim2real gap：<strong>7/10，Weak Accept</strong>；</li><li>再加 source-disjoint 下有效的 CausalHazard-SL 和第二平台/时间泛化：<strong>8/10，Accept 潜力</strong>。</li></ul>
+<h3 id="93-reviewer-verdict">9.3 Reviewer Verdict</h3>
+<p><code>TRIAGE_VERDICT: TOP_PICKS=[OpenTrace leakage-controlled benchmark, CausalHazard-SL, Partial/Open-World extension]</code></p>
+<hr />
+<h2 id="10-eliminated-ideas">10. Eliminated Ideas</h2>
+<h3 id="普通富特征-gnn">普通富特征 GNN</h3>
+<p>淘汰作为主 idea。原因：NFSL、DSLF、CRSLL 和 TSR-RSD 已覆盖真实行为、画像、评论和语义推理。它只能作为 baseline。</p>
+<h3 id="直接转换-phemeupfd">直接转换 PHEME/UPFD</h3>
+<p>淘汰作为 benchmark 主体。原因：传播树根和时间结构极易泄漏，且缺少标准事件前环境图。</p>
+<h3 id="重复传播者先验">重复传播者先验</h3>
+<p>不作为主贡献。它在 transductive 场景可能有效，但在 source-disjoint 下失效，并可能被审稿人视作用户身份记忆。</p>
+<h3 id="llm-级联模拟">LLM 级联模拟</h3>
+<p>暂缓。真实度难验证，预算较高，而且会分散主线。</p>
+<hr />
+<h2 id="11-推荐投稿定位">11. 推荐投稿定位</h2>
+<h3 id="最优论文叙事">最优论文叙事</h3>
+<p><strong>题目草案</strong>：</p>
+<blockquote><p><strong>OpenTrace: Leakage-Controlled Real-World Source Localization with Causal Context</strong></p></blockquote>
+<p>或：</p>
+<blockquote><p><strong>Learning the Forward Process to Solve the Inverse: Real-World Source Localization on Temporal Social Graphs</strong></p></blockquote>
+<h3 id="适合的-venue">适合的 venue</h3>
+<ul><li>KDD Datasets &amp; Benchmarks / Research Track；</li><li>WWW；</li><li>CIKM；</li><li>ICWSM（数据与社会计算叙事更强）；</li><li>NeurIPS Datasets &amp; Benchmarks（需要更强的数据治理、复现和广泛影响）。</li></ul>
+<hr />
+<h2 id="12-下一步">12. 下一步</h2>
+<ol><li>先完成 Bluesky 数据字段和许可审计；</li><li>实现 1,000 级联的 Pilot 0；</li><li>运行 leakage probes 和 source-disjoint Pilot 1；</li><li>只有任务非平凡时，才实现 CausalHazard-SL；</li><li>Pilot 2 若没有稳定特征增益，论文收缩为 benchmark + sim2real audit；</li><li>不应先在 PHEME/UPFD 上投入复杂模型。</li></ol>
+<h2 id="evidence-gate-status">Evidence Gate Status</h2>
+<ul><li>本仓库缺少 <code>run_state.py</code> 与 <code>idea_discovery_gate.py</code> 的规范解析路径，因此自动 evidence gate 仍为： <code>BLOCKED: run_state.py/idea_discovery_gate.py helpers unavailable in resolution chain</code>。</li><li>本报告已完成文献查新、idea 筛选、竞争工作审计、外部批判式评审和实验方案设计，但<strong>尚未运行真实数据 pilot</strong>。</li><li>因此当前状态应表述为：<strong>研究提案已收敛，经验可行性待 Pilot 0–2 验证</strong>，而不是“idea 已被实验证实”。</li></ul>
+
+<footer class="aris-footer">
+  Generated by <a href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/blob/main/skills/render-html/SKILL.md">ARIS <code>/render-html</code></a> ·
+  source path <code>idea-stage\IDEA_REPORT.md</code> ·
+  SHA256 <code>db207578a734</code> ·
+  generated at 2026-08-21 09:40 UTC.
+  This is a generated view — edit the source Markdown, then re-render.
+</footer>
+</main>
+
+</div>
+
+<!-- P0 polish: paper popover host (populated by IIFE below) -->
+<div id="cite-pop" hidden role="dialog" aria-labelledby="cite-pop-title">
+  <button class="cp-close" type="button" aria-label="Close">×</button>
+  <div class="cp-content"></div>
+</div>
+
+<!-- P0 polish: figure lightbox (native <dialog>, graceful fallback) -->
+<dialog class="lightbox" id="figure-lightbox" aria-label="Figure detail">
+  <div class="lb-inner">
+    <button class="lb-close" type="button" aria-label="Close">×</button>
+    <img alt="" />
+    <figcaption></figcaption>
+  </div>
+</dialog>
+
+<!-- P0 polish: paper registry sidecar, embedded by render_html.py (--papers) -->
+<script>window.PAPER_REGISTRY = {};</script>
+
+<!-- P0 polish: interactive enhancements (TOC scrollspy, code-card auto-collapse,
+     paper popovers, figure lightbox, print-restore for <details>, blog-mode H2). -->
+<script>
+(function () {
+  "use strict";
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c];
+    });
+  }
+
+  // --- Feature 5: Print degradation fix ---------------------------------
+  // Force every <details> open during print, restore the pre-print state after.
+  var _stashOpen = [];
+  var _printing = false;
+  window.addEventListener("beforeprint", function () {
+    if (_printing) return;  // guard against multi-fire (Chrome print preview)
+    _printing = true;
+    _stashOpen = [];
+    document.querySelectorAll("details:not([open])").forEach(function (d) {
+      _stashOpen.push(d);
+      d.open = true;
+    });
+  });
+  window.addEventListener("afterprint", function () {
+    _stashOpen.forEach(function (d) { if (d.isConnected) d.open = false; });
+    _stashOpen = [];
+    _printing = false;
+  });
+
+  // --- Feature 3: TOC scrollspy -----------------------------------------
+  var tocLinks = [].slice.call(document.querySelectorAll("nav.toc a"));
+  var headings = tocLinks.map(function (a) {
+    var id = a.getAttribute("href").replace(/^#/, "");
+    return document.getElementById(id);
+  }).filter(Boolean);
+  if (headings.length && typeof IntersectionObserver !== "undefined") {
+    var linkById = new Map();
+    headings.forEach(function (h, i) { linkById.set(h.id, tocLinks[i]); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        tocLinks.forEach(function (l) { l.classList.remove("active"); });
+        var lk = linkById.get(en.target.id);
+        if (lk) lk.classList.add("active");
+      });
+    }, { rootMargin: "-15% 0px -75% 0px" });
+    headings.forEach(function (h) { io.observe(h); });
+  }
+
+  // --- Feature 1: Long-code auto-collapse -------------------------------
+  var COLLAPSE_THRESHOLD = 30;
+
+  function wrapCodeCard(pre, openByDefault) {
+    if (!pre || pre.closest("details.code-card")) return;
+    var code = pre.querySelector("code");
+    if (!code) return;
+    var lines = code.textContent.replace(/\n+$/, "").split("\n").length;
+    var det = document.createElement("details");
+    det.className = "code-card";
+    det.open = openByDefault;
+    var sum = document.createElement("summary");
+    function updateSummary() {
+      sum.textContent = (det.open ? "▾ Collapse code · " : "▸ Expand code · ") + lines + " lines";
+    }
+    updateSummary();
+    det.addEventListener("toggle", updateSummary);
+    pre.parentNode.insertBefore(det, pre);
+    det.appendChild(sum);
+    det.appendChild(pre);
+  }
+
+  // Honor explicit per-block flags first.
+  document.querySelectorAll("pre[data-collapse]").forEach(function (pre) {
+    var flag = pre.getAttribute("data-collapse");
+    if (flag === "collapsed") wrapCodeCard(pre, false);
+    // "open" → leave fully expanded, do not wrap.
+  });
+  // Then auto-wrap long unflagged blocks.
+  document.querySelectorAll("pre > code").forEach(function (code) {
+    var pre = code.closest("pre");
+    if (!pre || pre.closest("details") || pre.hasAttribute("data-collapse")) return;
+    var lines = code.textContent.replace(/\n+$/, "").split("\n").length;
+    if (lines >= COLLAPSE_THRESHOLD) wrapCodeCard(pre, false);
+  });
+
+  // --- Feature 10: Figure lightbox --------------------------------------
+  var lightbox = document.getElementById("figure-lightbox");
+  if (lightbox) {
+    var lbImg = lightbox.querySelector("img");
+    var lbCap = lightbox.querySelector("figcaption");
+    var lbClose = lightbox.querySelector(".lb-close");
+    function openLightbox(srcImg) {
+      lbImg.src = srcImg.src;
+      lbImg.alt = srcImg.alt || "";
+      var cap = srcImg.closest("figure") ? srcImg.closest("figure").querySelector("figcaption") : null;
+      lbCap.textContent = cap ? cap.textContent : "";
+      lbCap.hidden = !cap;
+      if (typeof lightbox.showModal === "function") lightbox.showModal();
+      else lightbox.hidden = false;
+    }
+    function closeLightbox() {
+      if (typeof lightbox.close === "function") lightbox.close();
+      else lightbox.hidden = true;
+    }
+    document.querySelectorAll("main figure img, main > p > img").forEach(function (img) {
+      if (img.closest("dialog")) return;
+      img.style.cursor = "zoom-in";
+      img.addEventListener("click", function () { openLightbox(img); });
+    });
+    if (lbClose) lbClose.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", function (e) {
+      // Backdrop click closes; clicks inside .lb-inner do not bubble here.
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
+
+  // --- Feature 2: Paper popover -----------------------------------------
+  var PAPERS = window.PAPER_REGISTRY || {};
+  var pop = document.getElementById("cite-pop");
+  var popContent = pop ? pop.querySelector(".cp-content") : null;
+  var popClose = pop ? pop.querySelector(".cp-close") : null;
+  var popTrigger = null;
+
+  function showPopover(el) {
+    var key = el.dataset.ref;
+    var info = PAPERS[key];
+    if (!info || !pop || !popContent) return;
+    popContent.innerHTML =
+      '<div class="cp-title" id="cite-pop-title">' + escapeHtml(info.title || key) + '</div>' +
+      (info.authors
+        ? '<div class="cp-meta">' + escapeHtml(info.authors) +
+            (info.date ? ' · ' + escapeHtml(info.date) : '') +
+            (info.inst ? ' · ' + escapeHtml(info.inst) : '') + '</div>'
+        : '') +
+      (info.key ? '<div class="cp-key">' + escapeHtml(info.key) + '</div>' : '') +
+      (info.arxiv
+        ? '<a class="cp-link" href="https://arxiv.org/abs/' + encodeURIComponent(info.arxiv) +
+          '" target="_blank" rel="noopener">arXiv ' + escapeHtml(info.arxiv) + ' ↗</a>'
+        : '');
+    var r = el.getBoundingClientRect();
+    pop.hidden = false;  // unhide first so offsetHeight is measurable
+    var margin = 16;
+    var popWidth = Math.min(360, Math.max(0, window.innerWidth - margin * 2));
+    var popHeight = Math.min(pop.offsetHeight || 200, Math.max(0, window.innerHeight - margin * 2));
+    pop.style.left = Math.max(margin, Math.min(r.left, window.innerWidth - popWidth - margin)) + "px";
+    pop.style.top = Math.max(margin, Math.min(r.bottom + 8, window.innerHeight - popHeight - margin)) + "px";
+    popTrigger = el;
+    if (popClose) popClose.focus();
+  }
+  function hidePopover() {
+    if (pop) pop.hidden = true;
+    if (popTrigger) popTrigger.focus();
+    popTrigger = null;
+  }
+  document.querySelectorAll("[data-ref]").forEach(function (el) {
+    el.setAttribute("tabindex", "0");
+    el.setAttribute("role", "button");
+    el.addEventListener("click", function (e) { e.stopPropagation(); showPopover(el); });
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); showPopover(el); }
+    });
+  });
+  if (popClose) popClose.addEventListener("click", hidePopover);
+  document.addEventListener("click", function (e) {
+    if (pop && !pop.hidden && !pop.contains(e.target) && !e.target.matches("[data-ref]")) hidePopover();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && pop && !pop.hidden) hidePopover();
+  });
+
+  // --- Feature 7: Blog-mode active-H2 highlight (opt-in) ----------------
+  if (document.body.classList.contains("aris-blog")) {
+    var h2s = [].slice.call(document.querySelectorAll("main h2"));
+    if (h2s.length && typeof IntersectionObserver !== "undefined") {
+      var io2 = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) {
+            h2s.forEach(function (h) { h.classList.remove("aris-active-h2"); });
+            en.target.classList.add("aris-active-h2");
+          }
+        });
+      }, { rootMargin: "-15% 0px -75% 0px" });
+      h2s.forEach(function (h) { io2.observe(h); });
+    }
+  }
+})();
+</script>
+</body>
+</html>
